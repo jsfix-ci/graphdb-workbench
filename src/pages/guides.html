@@ -1,0 +1,17 @@
+<h1>
+    <div class="title">{{title}}
+        <span class="btn btn-link"
+              popover-template="'js/angular/templates/titlePopoverTemplate.html'"
+              popover-trigger="mouseenter"
+              popover-placement="bottom"
+              popover-append-to-body="true"><span class="icon-info"></span></span>
+    </div>
+</h1>
+
+
+<div class="content">{{content}}</div>
+
+
+<div>
+    <input type="button" class="btn btn-lg btn-primary" ng-click="startTour()" value="Start Tour" >
+</div>
