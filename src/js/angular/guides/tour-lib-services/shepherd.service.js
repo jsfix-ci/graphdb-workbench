@@ -531,7 +531,7 @@ function ShepherdService($location, $translate, LocalStorageAdapter, $route) {
             extraTitle = ' — ' + (stepDescription.stepN + 1) + '/' + stepDescription.stepsTotalN;
         }
 
-        return {
+        const step = {
             id: stepDescription.id,
             title: GuideUtils.unescapeHtml(GuideUtils.translateLocalMessage($translate, stepDescription.title, stepDescription)) + extraTitle,
             text: GuideUtils.unescapeHtml(GuideUtils.translateLocalMessage($translate, stepDescription.content, stepDescription)),
@@ -548,11 +548,33 @@ function ShepherdService($location, $translate, LocalStorageAdapter, $route) {
             classes: 'guide-dialog',
             beforeShowPromise: stepDescription.beforeShowPromise,
             when: {
-                show: () => {
-                    onShow();
-                }
+                show: this._getShowFunction(stepDescription, onShow)
             }
         };
+
+        if (stepDescription.disabled) {
+            step.when.hide = () => {
+                const ddd = stepDescription;
+                angular.element( document.querySelector(stepDescription.elementSelector) ).removeClass('element-disabled');
+            }
+        }
+
+        return step;
+    }
+
+    this._getShowFunction = (stepDescription, onShow) => {
+        if (stepDescription.disabled) {
+            return () => {
+                const ddd = stepDescription;
+                angular.element(document.querySelector(stepDescription.elementSelector)).addClass('element-disabled');
+                onShow();
+            }
+        }
+
+        return () => {
+            const ddd = stepDescription;
+            onShow();
+        }
     }
 
     /**
@@ -568,7 +590,8 @@ function ShepherdService($location, $translate, LocalStorageAdapter, $route) {
             classes: isSecondary ? 'btn-lg btn-secondary' : 'btn-lg btn-primary'
         };
 
-        button.action = () => {
+        button.action = ($event) => {
+            $event.stopPropagation();
             action();
         }
 

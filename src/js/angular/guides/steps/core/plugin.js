@@ -9,7 +9,8 @@ const BASIC_STEP = {
     canBePaused: true,
     onNextClick: undefined,
     onNextValidate: undefined,
-    onPreviousClick: undefined
+    onPreviousClick: undefined,
+    disabled: false
 };
 
 /**
