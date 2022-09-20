@@ -25,6 +25,8 @@ describe.only('Visual saved graph screen validation', () => {
         cy.get('[data-cy="set-query"]').click();
         getSaveConfig().click();
         cy.url().should('include', 'graphs-visualizations');
+        cy.visit('graphs-visualizations');
+        cy.get('[data-cy="graph-configs"]');
         cy.get('[data-cy="starting-point-query-results"]').first().click();
         cy.url().should('include', 'graphs-visualizations?config=');
         cy.get('[data-cy="save-or-update-graph"]').click()
