@@ -248,7 +248,7 @@ describe('Visual graph screen validation', () => {
         });
 
         it('Test verify mouse/keyboard actions', () => {
-            let mouseActions = 'Mouse actions\n                ' +
+            const mouseActions = 'Mouse actions\n                ' +
                 '\n                    \n                    \n                        \n                            ' +
                 'Single click\n                        \n                        ' +
                 'View node details and properties\n                    \n                    \n                        \n                            ' +
@@ -264,14 +264,14 @@ describe('Visual graph screen validation', () => {
                 'Pin down or unpin the node\n                    \n                    \n                        \n                            ' +
                 'Click and drag outside a node\n                        \n                        ' +
                 'Move the whole graph\n';
-            let touchActions = 'Touch actions\n            \n                \n                \n                    \n                        ' +
+            const touchActions = 'Touch actions\n            \n                \n                \n                    \n                        ' +
                 'Tap\n                    \n                    ' +
                 'View node details and properties\n                \n                \n                    \n                        ' +
                 'Tap and hold\n                    \n                    ' +
                 'Removes a node and its links\n                \n                \n                    \n                        ' +
                 'Tap twice\n                    \n                    ' +
                 'Load node connections\n';
-            let keyboardActions = 'Keyboard actions\n                \n                    \n                        \n                            ' +
+            const keyboardActions = 'Keyboard actions\n                \n                    \n                        \n                            ' +
                 'Left arrow\n                        \n                        ' +
                 'Rotate the graph to the left\n                    \n                    \n                        \n                            ' +
                 'Right arrow\n                        \n                        ' +
@@ -513,7 +513,7 @@ describe('Visual graph screen validation', () => {
         cy.get('.page-2-link').should('be.visible')
             .and('contain', 'Graph expansion');
         cy.get('.page-3-link').should('be.visible')
-            .and('contain', 'Node basics')
+            .and('contain', 'Node basics');
         cy.get('.page-4-link').should('be.visible')
             .and('contain', 'Edge basics');
         cy.get('.page-5-link').should('be.visible')
@@ -523,7 +523,7 @@ describe('Visual graph screen validation', () => {
 
         cy.get('.expand-samples .list-group-item').first().click();
         getSaveConfig().click();
-        cy.url().should('eq', Cypress.config('baseUrl') + '/graphs-visualizations')
+        cy.url().should('eq', Cypress.config('baseUrl') + '/graphs-visualizations');
         getGraphConfigurationsArea().should('be.visible')
             .and('contain', 'configName');
         getGraphConfigurationsArea().should('be.visible')
@@ -537,12 +537,12 @@ describe('Visual graph screen validation', () => {
         cy.url().should('include', '/config/save');
         getGraphConfigName().type('MyGraphConfig');
         cy.get('[data-cy="check-box-success-query"]').check();
-        cy.get('[data-cy="set-query"]').click();
+        cy.get('[data-cy="query-editor"]').type('CONSTRUCT WHERE {?s ?p ?o} LIMIT 10', {parseSpecialCharSequences: false});
         getSaveConfig().click();
         cy.url().should('include', 'graphs-visualizations');
         cy.visit('graphs-visualizations');
         cy.get('[data-cy="graph-configs"]');
-        cy.get('[data-cy="starting-point-query-results"]').first().click();
+        cy.get('[data-cy="starting-point-query-results"]').first().click({force:true});
         cy.url().should('include', 'graphs-visualizations?config=');
         cy.get('[data-cy="save-or-update-graph"]').click()
             .get( '[id="wb-graphviz-savegraph-name"]').type('myGraph')
@@ -579,6 +579,11 @@ describe('Visual graph screen validation', () => {
         cy.get('[data-cy="saved-advanced-graph"]')
             .get('[data-cy="delete-saved-graph"]').first().click({force:true});
         confirmDelete();
+        //Deletes graph config
+        cy.visit('graphs-visualizations');
+        cy.get('[data-cy="graph-configs"]')
+            .get('[data-cy="delete-graph-config"]').first().click({force:true});
+        confirmDelete();
     });
 
     // Visual graph home view access
@@ -596,7 +601,7 @@ describe('Visual graph screen validation', () => {
                 cy.waitUntil(() =>
                     cy.get('.graph-visualization')
                         .find('.nodes-container')
-                        .then(nodesContainer => nodesContainer))
+                        .then((nodesContainer) => nodesContainer))
                     .then(() => {
                         getNodes();
                     });
@@ -636,14 +641,14 @@ describe('Visual graph screen validation', () => {
     }
 
     function showPreferredTypes(enable) {
-        let command = enable ? 'check' : 'uncheck';
+        const command = enable ? 'check' : 'uncheck';
         getShowPreferredTypesOnlyCheckbox()[command]();
     }
 
     function toggleInferredStatements(enable) {
         openVisualGraphSettings();
         getSettingsPanel().should('be.visible');
-        let command = enable ? 'check' : 'uncheck';
+        const command = enable ? 'check' : 'uncheck';
         getIncludeInferredStatementsCheckbox()[command]();
         saveSettings();
     }

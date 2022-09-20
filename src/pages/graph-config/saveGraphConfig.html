@@ -220,7 +220,7 @@
 
                 <div class="form-group row" ng-hide="page == 1 && newConfig.startMode != 'query'">
                     <div class="col-md-9">
-                        <query-editor nostorage notabs notoolbar-saved notoolbar-copy nostatus nocount norun callback-on-change="updateDirty">
+                        <query-editor nostorage notabs notoolbar-saved notoolbar-copy nostatus nocount norun callback-on-change="updateDirty" data-cy="query-editor">
                         </query-editor>
                     </div>
                     <div class="col-md-3">
@@ -228,7 +228,7 @@
 
                         <div ng-show="page == 1" class="list-group">
                             <div ng-repeat="sample in samples | filter:isDefaultGraph">
-                                <a href="#" ng-if="sample.startGraphQuery" ng-click="setQuery(sample.startGraphQuery)" data-cy="set-query" class="list-group-item list-group-item-action">
+                                <a href="#" ng-if="sample.startGraphQuery" ng-click="setQuery(sample.startGraphQuery)" class="list-group-item list-group-item-action">
                                     <strong ng-bind="getSampleName(sample, 'startGraphQuery')"></strong>
                                     <samp class="text-muted small">{{sample.startGraphQuery}}</samp>
                                 </a>
