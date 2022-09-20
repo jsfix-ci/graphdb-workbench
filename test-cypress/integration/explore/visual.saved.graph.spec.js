@@ -62,11 +62,6 @@ describe.only('Visual saved graph screen validation', () => {
         cy.get('[data-cy="saved-advanced-graph"]')
                 .get('[data-cy="delete-saved-graph"]').first().click({force:true});
             confirmDelete();
-        //Deletes graph configuration
-        cy.visit('graphs-visualizations');
-        cy.get('[data-cy="graph-configs"]')
-               .get('[data-cy="delete-graph-config"]').first().click({force:true});
-            confirmDelete();
     });
 
     function getCreateCustomGraphLink() {
