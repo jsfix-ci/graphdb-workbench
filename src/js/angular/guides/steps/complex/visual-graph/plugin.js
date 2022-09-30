@@ -28,6 +28,16 @@ PluginRegistry.add('guide.step', [
                         content: 'guide.step_plugin.visual_graph_input_IRI.content',
                         forceReload: true,
                         url: '/graphs-visualizations',
+                        beforeShowPromise: () => new Promise(function (resolve, reject) {
+                            $location.path('/graphs-visualizations');
+                            services.$route.reload();
+                            return services.GuideUtils.waitFor(GuideUtils.getGuideElementSelector('graphVisualisationSearchInputNotConfigured', ' input'), 3)
+                                .then(() => resolve())
+                                .catch((error) => {
+                                    services.toastr.error(services.$translate.instant('guide.unexpected.error.message'));
+                                    reject(error);
+                                });
+                        }),
                         elementSelector: GuideUtils.getGuideElementSelector('graphVisualisationSearchInputNotConfigured', ' input'),
                         onNextValidate: (step) => GuideUtils.validateTextInput(step.elementSelector, step.easyGraphInputText)
                     }, options)

@@ -367,7 +367,24 @@ function GuidesService($http, $rootScope, $translate, $interpolate, ShepherdServ
         }
         let coreSteps = [];
         guide.steps.forEach(step => {
-            coreSteps = coreSteps.concat(this._getSteps(step, guide.options));
+            let steps = [];
+            if (step.group) {
+                step.steps.forEach(groupStep => {
+                    steps = steps.concat(this._getSteps(groupStep, guide.options));
+                });
+            } else {
+                steps = this._getSteps(step, guide.options);
+            }
+
+            steps.forEach((step, index) => {
+                step.stepN = index;
+                step.stepsTotalN = steps.length;
+                if (!step.title && step.mainAction) {
+                    step.title = 'guide.step-action.' + step.mainAction;
+                }
+            });
+
+            coreSteps = coreSteps.concat(steps);
         });
         return coreSteps;
     }
@@ -412,13 +429,6 @@ function GuidesService($http, $rootScope, $translate, $interpolate, ShepherdServ
                 }
             }
         }
-        steps.forEach((step, index) => {
-            step.stepN = index;
-            step.stepsTotalN = steps.length;
-            if (!step.title && step.mainAction) {
-                step.title = 'guide.step-action.' + step.mainAction;
-            }
-        });
         return steps;
     }
 

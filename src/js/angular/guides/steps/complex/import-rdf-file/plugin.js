@@ -13,7 +13,7 @@ PluginRegistry.add('guide.step', [
                     guideBlockName: 'click-main-menu',
                     options: angular.extend({}, {
                         menu: 'import',
-                        showIntro: true
+                        showIntro: false
                     }, options)
                 }
             ];
